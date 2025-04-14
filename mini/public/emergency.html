@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emergency Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #e53935;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="file"],
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #e53935;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Emergency Contact</h2>
+    <form action="#" method="POST" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="tel" name="mobile" placeholder="Mobile Number" required>
+      <input type="file" name="image" accept="image/*" required>
+      <button type="button" onclick="getLocation()">Enable Location</button>
+      <p id="locationOutput"></p>
+      <div class="Enable Location" onclick="alert('Please turn on the location')">
+        <div id="locationModal" class="modal"></div>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          document.getElementById("locationOutput").innerText = `Location: ${lat}, ${lon}`;
+          const form = document.querySelector('form');
+          let latInput = document.createElement('input');
+          latInput.type = 'hidden';
+          latInput.name = 'latitude';
+          latInput.value = lat;
+          let lonInput = document.createElement('input');
+          lonInput.type = 'hidden';
+          lonInput.name = 'longitude';
+          lonInput.value = lon;
+          form.appendChild(latInput);
+          form.appendChild(lonInput);
+        });
+      } else {
+        alert("Geolocation is not supported.");
+      }
+    }
+  </script>
+</body>
+</html>
